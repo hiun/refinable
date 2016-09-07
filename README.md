@@ -1,7 +1,7 @@
 *A work in progress.*
 
 # self-js
-JavaScript Implementation of Self-composable Programming
+JavaScript Implementation of [Self-composable Programming](https://github.com/hiun/self)
 
 
 # API
