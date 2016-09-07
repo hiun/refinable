@@ -4,7 +4,7 @@
 JavaScript Implementation of [Self-composable Programming](https://github.com/hiun/self)
 
 
-# API
+## API
 | **Method Name** | **Description** |
 | ------------- |:-------------:|
 |**Logic#add(Function\|Logic)** | Append given function|logic to Logic|
@@ -14,9 +14,9 @@ JavaScript Implementation of [Self-composable Programming](https://github.com/hi
 |**Logic#Sublogic#delete(Function\|Logic)** | Delete specified sublogic|
 |**Logic#Sublogic#map(Function\|Logic)** | Replace specified sublogic to the returned function which gets original sublogic as a argument|
 
-# Example
+## Example
 
-## Initialisation & Inheritance
+### Initialisation & Inheritance
 ```javascript
 var DBQuery = new Logic();
 
@@ -28,7 +28,7 @@ var ReadDBQuery = new DBQuery();
 var WriteDBQuery = new DBQuery();
 ```
 
-##Logic & Sublogic Manipulation
+###Logic & Sublogic Manipulation
 ```javascript
 var ReadRecentArticles = new ReadDBQuery();
 
@@ -47,10 +47,10 @@ ReadRecentArticles2.Q4.map( (Q4) => { 
 });
 ```
 
-# Status
+## Status
 This is partial implementation of Self-composable programmng, feature may incomplete and unstable.
 
-# Todos
+## Todos
 -  Processing array of function which returns Promise and callback
 -  Specification and/or wrapper for argument passing style to achive universal composability
 - Epxlicit manipulation support on native property
