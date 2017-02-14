@@ -1,61 +1,84 @@
-*A work in progress.*
-
 # self-js
-JavaScript Implementation of [Self-composable Programming](https://github.com/hiun/self)
+Bringing Object-oriented Modularity to Function. JavaScript Implementation of [Self-composable Programming](https://github.com/hiun/self). 
 
+##Self-composable Programming
+Self-composable Programming(Self) is a technique for Software Product Line Engineering to manage variability on software feature implementation. Self bring an object-oriented approach to increasing modularity by localising scattered and so tangled behavior - the ***commonalities*** to ***abstract function*** and ***variabilities*** to inherited ***specific function*** by applying refinement. Programming-level compositional approach on software modularity include metaprogramming or aspect-oriented programming works well while Self provides different advantages, Self is nothing new, does not requires special compiler or language feature but fully used the vision and idea provided since SIMULA67, which is *modeling the real world*. I am sure Object-oriented Programming is good at modeling ***things*** but not ***behaviors***, while the concept, Object-orientation could suitable for this and Self provides a practical approach to modeling of modern software behavior by bringing ***hierarchical relationship*** as you seen below in the example of a web application.
+
+![hierarchical relationship](rel.png)
 
 ## API
 | **Method Name** | **Description** |
 | ------------- |:-------------:|
-|**Logic#add(Function\|Logic)** | Append given function|logic to Logic|
-|**Logic#Sublogic#before(Function\|Logic)** | Insert given function|logic before specified sublogic|
-|**Logic#Sublogic#after(Function\|Logic)** | Insert given function|logic after specified sublogic|
-|**Logic#Sublogic#update(Function\|Logic)** | Update specified sublogic into given logic|
-|**Logic#Sublogic#delete(Function\|Logic)** | Delete specified sublogic|
-|**Logic#Sublogic#map(Function\|Logic)** | Replace specified sublogic to the returned function which gets original sublogic as a argument|
+|**Bahevior#add(Function\|Bahevior)** | Append given function or behavior into high-level behacior|
+|**Behavior#Sub#before(Function\|Bahevior)** | Insert given function or behavior before specified behavior|
+|**Behavior#Sub#after(Function\|Bahevior)** | Insert given function or behavior after specified behavior|
+|**Behavior#Sub#update(Function\|Bahevior)** | Update specified behavior into given function or behavior|
+|**Behavior#Sub#delete(Function\|Bahevior)** | Delete specified behavior|
+|**Behavior#Sub#map(Function\|Bahevior)** | Manipulate specified behavior with new function or behavior that takes original behavior as an argument|
 
-## Example
+## Examples
 
-### Initialisation & Inheritance
+###Behavior Construction
 ```javascript
-var DBQuery = new Logic();
+var Behavior = require('self');
 
-DBQuery.add(A); 
-DBQuery.add(B);
-DBQuery.add(C);
+var DBQuery = new Behavior();
 
+DBQuery.add(auth);
+DBQuery.add(validate);
+DBQuery.add(monit);
+```
+
+###Bahevior Inheritance
+```javascript
+/* Operation-specific Processing */
 var ReadDBQuery = new DBQuery();
 var WriteDBQuery = new DBQuery();
+
+/* Object-specific Processing */
+var ReadPost = new ReadDBQuery();
+var WritePosts = new WriteDBQuery();
+
+/* Feature-specific Processing */
+var ReadPostsRecents = new ReadPosts();
+var ReadPostsPopular = new ReadPosts();
+var CreatePost = new WritePost();
+var UpdatePost = new WritePost();
 ```
 
-###Logic & Sublogic Manipulation
+
+###Explicit Behavior Refinement
 ```javascript
-var ReadRecentArticles = new ReadDBQuery();
+var WriteDBQuery = new DBQuery();
 
-ReadRecentArticles.Q1.before(A1);
-ReadRecentArticles.Q2.after(A2);
-
-ReadRecentArticles.Q2.update(Q4);
-ReadRecentArticles.Q3.delete(A2);
-
-ReadRecentArticles2.Q4.map( (Q4) => {     
-    return () => {
-        for (var i; i < 3; i++) {
-            Q4();
-        }
-    }
+WriteDBQuery.add(writeBack);
+WriteDBQuery.monitoring.update(cacheMonit);
+WriteDBQuery.validate.before(beforeValidate);
+WriteDBQuery.validate.after(afterValidate);
+WriteDBQuery.validate.map(() => {
+    return (validate) => {
+      validateWrapper(validate);
+}
 });
+WriteDBQuery.beforeValidate.delete();
+
+var CreatePost = new WriteDBQuery();
+
+CreatePost.add(createUserSQLExec);
+CreatePost.auth.update(2factorAuth);
 ```
 
-## Status
-This is partial implementation of Self-composable programmng, feature may incomplete and unstable.
 
-## Todos
--  Processing array of function which returns Promise and callback
--  Specification and/or wrapper for argument passing style to achive universal composability
-- Epxlicit manipulation support on native property
+###Implicit Behavior Refinement
+Traits is object-independent, set of composable behavior. By using native support for `Object.assign`, behavior could refiend in high-level and implicit manner. 
+
 ```javascript
-UserProfileQuery.add('user-profile-query', userProfileQuery);
-//versus explicit access
-UserProfileQuery.userProfileQuery.update();
+var publicApiTraits = {
+    auth: null
+};
+
+var WriteDBQuery = Object.assign(WriteDBQuery, publicApiTraits);
 ```
+
+## Development Status
+Currently experimental and unstable.
