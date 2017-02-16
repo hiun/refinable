@@ -15,6 +15,7 @@ Self-composable Programming(Self) is a technique for Software Product Line Engin
 |**Behavior#Sub#update(Function\|Bahevior)** | Update specified behavior into given function or behavior|
 |**Behavior#Sub#delete(Function\|Bahevior)** | Delete specified behavior|
 |**Behavior#Sub#map(Function\|Bahevior)** | Manipulate specified behavior with new function or behavior that takes original behavior as an argument|
+|**Behavior#assign(Function\|Bahevior)<br>Behavior#sub#assign(Function\|Bahevior)** | Assigns traits to specific behavior with given traits object|
 
 ## Examples
 
@@ -70,15 +71,18 @@ CreatePost.auth.update(2factorAuth);
 
 
 ###Implicit Behavior Refinement
-Traits is object-independent, set of composable behavior. By using native support for `Object.assign`, behavior could refiend in high-level and implicit manner. 
+Traits is object-independent, set of composable behavior. By `assign` method, behavior could refiend in high-level and implicit manner. 
 
 ```javascript
 var publicApiTraits = {
     auth: null
 };
 
-var WriteDBQuery = Object.assign(WriteDBQuery, publicApiTraits);
+WriteDBQuery.assign(publicApiTraits);
 ```
 
-## Development Status
-Currently experimental and unstable.
+##Todos
+- Support for asynchronous task with serial invocation of Promise
+
+##Development Status
+Status : Currently experimental and unstable.
