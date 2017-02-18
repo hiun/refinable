@@ -91,7 +91,7 @@ Behavior.prototype = {
     this.behaviorStore.updateBehavior(newBehavior);
   },
   map: function (callback) {
-    this.behaviorStore.wrapBehavior(callback);
+    this.behaviorStore.wrapBehavior(this.name, callback);
   },
   delete: function () {
     this.behaviorStore.deleteBehavior(this.name);
@@ -106,7 +106,7 @@ Behavior.prototype = {
         throw 'Name Error : Please pass the name of behavior in explicitly in first argument or implicitly within Function or Behavior object';
       }
     }
-    insertBehaviorBefore(this.name, behavior);
+    this.behaviorStore.insertBehaviorBefore(this.name, behavior);
   },
   after: function (behavior, name) {
     if (!behavior.name) {
@@ -118,7 +118,7 @@ Behavior.prototype = {
         throw 'Name Error : Please pass the name of behavior in explicitly in first argument or implicitly within Function or Behavior object';
       }
     }
-    insertBehaviorAfter(this.name, behavior);
+    this.behaviorStore.insertBehaviorAfter(this.name, behavior);
   },
   inherit: function() {
     var child = new Behavior(this.behaviorStore.getAllBehavior());
@@ -145,7 +145,7 @@ Behavior.prototype = {
     return child;
   },
   assign: function (traitsObject) {
-    behaviorStore.applyTraitsToBehavior(traitsObject);
+    this.behaviorStore.applyTraitsToBehavior(traitsObject);
   }
 }
 

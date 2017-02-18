@@ -13,45 +13,61 @@ Behaviors.prototype = {
   updateBehavior: function (newBehavior) {
     var self = this;
     this._findAndManipulate(newBehavior.name, function (index) {
-      //console.log('!!!!!!!!!!!!!!')
-      //console.log(behavior);
-      self.behaviors[index] = {
-                                name: newBehavior.name, 
-                                behavior: newBehavior
-                              };
-      //behavior.behavior = newBehavior;
+    self.behaviors[index] = {
+                              name: newBehavior.name, 
+                              behavior: newBehavior
+                            };
     });
   },
   insertBehaviorBefore: function (anchorBehaviorName, beforeBehavior) {
-    this._findAndManipulate(anchorBehaviorName, function () {
-      this.behaviors.forEach(function (behavior, index) {
-        if (behavior.name === anchorBehaviorName) {
-          this.behaviors.splice(index - 1, 0, beforeBehavior);
-        }
-      });
+    var self = this;
+    this._findAndManipulate(anchorBehaviorName, function (index) {
+      self.behaviors.splice(index, 0, {
+                              name: beforeBehavior.name, 
+                              behavior: beforeBehavior
+                            });
     });
   },
   insertBehaviorAfter: function (anchorBehaviorName, afterBehavior) {
-    this._findAndManipulate(anchorBehaviorName, function () {
-      this.behaviors.forEach(function (behavior, index) {
-        if (behavior.name === anchorBehaviorName) {
-          this.behaviors.splice(index - 1, 0, afterBehavior);
-        }
-      });
+    var self = this;
+    console.log(anchorBehaviorName)
+    this._findAndManipulate(anchorBehaviorName, function (index) {
+      console.log(self.behaviors)
+      console.log(index)
+      //plus one for inserting after index
+      self.behaviors.splice(index + 1, 0, {
+                              name: afterBehavior.name, 
+                              behavior: afterBehavior
+                            });
+      console.log(self.behaviors[2].behavior.toString())
     });
   },
   deleteBehavior: function (name) {
-    this.behaviors.forEach(function (behavior, index) {
-      if (behavior.name === name) {
-        behaviors.splice(index, 1);
-      }
+    var self = this;
+    this._findAndManipulate(name, function (index) {
+      self.behaviors.splice(index, 1);
     });
   },
-  wrapBehavior: function () {
-    this._findAndManipulate(this.name, function (behavior, index) {
-      var oriBehavior = this.behaviors[index];
-      var newBehavior = callback(oriBehavior);
-      oriBehavior = newBehavior;
+  wrapBehavior: function (name, callback) {
+    var self = this;
+    this._findAndManipulate(name, function (index) {
+      var oriBehavior = self.behaviors[index];
+      //console.log('ori--------------------')
+      //console.log(oriBehavior.behavior.toString())
+      var newBehavior = callback(oriBehavior.behavior);
+      //console.log(newBehavior.toString())
+      newBehavior.name = name;
+
+      self.behaviors[index] = {
+        name : name,
+        behavior: newBehavior
+      };
+
+      console.log(index)
+      console.log(self.behaviors[1].behavior.toString())
+      //console.log(self.behaviors[2].behavior)
+      //console.log(self.behaviors)
+
     });
   },
   appendNewBehavior: function (arg) {
@@ -65,8 +81,6 @@ Behaviors.prototype = {
   execBehavior: function () {
 
     var input = Array.from(arguments);
-
-    console.log(this.behaviors)
 
     this.behaviors.forEach(function (behavior) {
 
@@ -88,13 +102,17 @@ Behaviors.prototype = {
   },
   applyTraitsToBehavior: function (traitsObject) {
     var self = this;
-    this.behaviors.forEach(function (behavior) {
+    this.behaviors.forEach(function (behavior, index) {
       Object.keys(traitsObject).forEach(function (traits) {
         if (behavior.name === traits) {
-          self.behavior = traitsObject[traits];
+          self.behaviors[index] = {
+                                    name : traitsObject[traits].name,
+                                    behavior: traitsObject[traits]
+                                  };
         }
-      })
+      });
     });
+    console.log(self.behavior);
   }
 };
 
