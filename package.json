@@ -1,0 +1,9 @@
+{
+  "name": "self-js",
+  "version": "0.1.1",
+  "description": "Bringing Object-oriented Modularity to Function. JavaScript Implementation of Self-composable Programming.",
+  "test": "test",
+  "devDependencies": {
+    "mocha": "^3.2.0"
+  }
+}

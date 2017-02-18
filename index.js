@@ -36,7 +36,7 @@ Behavior.prototype = {
     var initArguments = Array.from(arguments).slice(0, -1);
     var callback = Array.from(arguments).slice(-1)[0];
 
-    var result = this.behaviorStore.execBehavior.apply(this, initArguments);
+    var result = this.behaviorStore.execBehavior.apply(this.behaviorStore, initArguments);
 
     callback(result);
   },
@@ -67,6 +67,8 @@ Behavior.prototype = {
       name: behavior.name
     };
 
+
+    //adds individual method to function!!!!!
     var self = this;
     this[behavior.name] = {};
 
@@ -122,6 +124,24 @@ Behavior.prototype = {
     var child = new Behavior(this.behaviorStore.getAllBehavior());
     //insert current traits to child
     child.behaviors = this.behaviors;
+
+    var self = this;
+
+    //manually add individual method to HERE!!!
+    var props = Object.keys(Behavior.prototype).concat(Object.keys(this));
+
+    props.forEach(function (trait) {
+      if (Behavior.prototype[trait]) {
+        child[trait] = Behavior.prototype[trait];        
+      }
+      if (self[trait]) {
+        child[trait] = self[trait];        
+      }
+    });
+
+    //console.log('-----------------')
+    //console.log(child)
+
     return child;
   },
   assign: function (traitsObject) {

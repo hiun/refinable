@@ -1,4 +1,4 @@
-var Logic = require('..');
+var Behavior = require('..');
 
 function emptyChk (data) {
   return arguments;
@@ -12,9 +12,9 @@ function emptyChk (data) {
 
 function userProfileQuery(userId) {
   var db = require('./db');
-  console.log('-----userProfileQuery-----');
-  console.log(arguments)
-  console.log(db.find('user', userId));
+  //console.log('-----userProfileQuery-----');
+  //console.log(arguments)
+  //console.log(db.find('user', userId));
   return db.find('user', userId);
 }
 
@@ -23,20 +23,30 @@ function articleQuery() {
   return db.find('article', arguments);
 }
 
-//console.log(Logic)
 
-var DBQuery = new Logic();
-DBQuery.add('empty-check', emptyChk);
+var DBQuery = new Behavior();
+DBQuery.add(function abc(n) {
+return n + 100;
+});
+DBQuery.add(function xyz (n) {
+return n + 100;
+});
+DBQuery.add(function wer (n) {
+return n + 100;
+});
+
 var UserProfileQuery = DBQuery.inherit();
-UserProfileQuery.add('user-profile-query', userProfileQuery);
-UserProfileQuery.userProfileQuery.update();
-UserProfileQuery.init(1).exec(console.log);
+UserProfileQuery.add(function userProfileQuery (n) {return n + 7;});
+UserProfileQuery.userProfileQuery.update(function (a) {
+  return 1;
+});
+UserProfileQuery.exec(1, 2, console.log);
 
-UserProfileQuery.emptyCheck.map(function (emptyCheck) {
-  return function () {
-    doSomething();
-    emptyCheck();
-  }
-})
-
-
+console.log(UserProfileQuery.behaviorStore.behaviors);
+/*
+console.log('!!!!!!!!!!!!!!!!!!!!1')
+console.log(UserProfileQuery.userProfileQuery);
+UserProfileQuery.userProfileQuery.update(function (argument) {
+  // body...
+});
+*/

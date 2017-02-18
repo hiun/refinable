@@ -4,15 +4,22 @@ var Behaviors = function () {
 
 Behaviors.prototype = {
   _findAndManipulate: function (name, callback) {
-    this.behaviors.forEach(function (behavior) {
+    this.behaviors.forEach(function (behavior, index) {
       if (behavior.name === name) {
-        callback(arguments);
+        callback(index);
       }
     });
   },
   updateBehavior: function (newBehavior) {
-    this._findAndManipulate(newBehavior.name, function (behavior) {
-      behavior.behavior = newBehavior;
+    var self = this;
+    this._findAndManipulate(newBehavior.name, function (index) {
+      //console.log('!!!!!!!!!!!!!!')
+      //console.log(behavior);
+      self.behaviors[index] = {
+                                name: newBehavior.name, 
+                                behavior: newBehavior
+                              };
+      //behavior.behavior = newBehavior;
     });
   },
   insertBehaviorBefore: function (anchorBehaviorName, beforeBehavior) {
@@ -57,15 +64,15 @@ Behaviors.prototype = {
   },
   execBehavior: function () {
 
-    console.log(this.behaviorStore.behaviors)
-
     var input = Array.from(arguments);
 
-    this.behaviorStore.behaviors.forEach(function (behavior) {
+    console.log(this.behaviors)
+
+    this.behaviors.forEach(function (behavior) {
 
       //run if bebavior is not null by assign method
       if (behavior !== null) {
-        input = behavior.behavior.apply(this, input);
+        input = behavior.behavior.apply(null, input);
       }
 
       if (!Array.isArray(input)) {
@@ -81,10 +88,10 @@ Behaviors.prototype = {
   },
   applyTraitsToBehavior: function (traitsObject) {
     var self = this;
-    this.behaviorStore.behaviors.forEach(function (behavior) {
+    this.behaviors.forEach(function (behavior) {
       Object.keys(traitsObject).forEach(function (traits) {
         if (behavior.name === traits) {
-          self.behaviorStore.behavior = traitsObject[traits];
+          self.behavior = traitsObject[traits];
         }
       })
     });
