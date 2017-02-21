@@ -1,53 +1,100 @@
+/**
+ * Constructor for new behaviorStore instance, stores behaviors array
+ *
+ * @public
+ */
+
 var Behaviors = function () {
   this.behaviors = [];
 };
 
+/**
+ * Find and return index of target behavior
+ *
+ * @param {String} name of target behavior.
+ * @param {Function} callback function for custom manipulation.
+ * @private
+ */
+
+Behaviors.prototype._findAndManipulate = function (name, callback) {
+  this.behaviors.forEach(function (behavior, index) {
+    if (behavior.name === name) {
+      callback(index);
+    }
+  });
+};
+
+/**
+ * Update specified behavior
+ *
+ * @param {Function|Object} New function or behavior object to update.
+ * @private
+ */
+
+ Behaviors.prototype.updateBehavior = function (newBehavior) {
+  var self = this;
+  this._findAndManipulate(newBehavior.name, function (index) {
+  self.behaviors[index] = {
+                            name: newBehavior.name, 
+                            behavior: newBehavior
+                          };
+  });
+};
+
+/**
+ * Insert behavior before in specified behavior
+ *
+ * @param {String} name of anchor behavior.
+ * @param {Object} behavior object to be inserted.
+ * @private
+ */
+
+Behaviors.prototype.insertBehaviorBefore = function (anchorBehaviorName, beforeBehavior) {
+  var self = this;
+  this._findAndManipulate(anchorBehaviorName, function (index) {
+    self.behaviors.splice(index, 0, {
+                            name: beforeBehavior.name, 
+                            behavior: beforeBehavior
+                          });
+  });
+};
+
+/**
+ * Insert behavior after in specified behavior
+ *
+ * @param {String} name of anchor behavior.
+ * @param {Object} behavior object to be inserted.
+ * @private
+ */
+
+Behaviors.prototype.insertBehaviorAfter = function (anchorBehaviorName, afterBehavior) {
+  var self = this;
+  this._findAndManipulate(anchorBehaviorName, function (index) {
+    //plus one for inserting after index
+    self.behaviors.splice(index + 1, 0, {
+                            name: afterBehavior.name, 
+                            behavior: afterBehavior
+                          });
+  });
+};
+
+/**
+ * Insert behavior after in specified behavior
+ *
+ * @param {String} name of anchor behavior.
+ * @param {Object} behavior object to be inserted.
+ * @private
+ */
+
+Behaviors.prototype.deleteBehavior: function (name) {
+  var self = this;
+  this._findAndManipulate(name, function (index) {
+    self.behaviors.splice(index, 1);
+  });
+};
+
+
 Behaviors.prototype = {
-  _findAndManipulate: function (name, callback) {
-    this.behaviors.forEach(function (behavior, index) {
-      if (behavior.name === name) {
-        callback(index);
-      }
-    });
-  },
-  updateBehavior: function (newBehavior) {
-    var self = this;
-    this._findAndManipulate(newBehavior.name, function (index) {
-    self.behaviors[index] = {
-                              name: newBehavior.name, 
-                              behavior: newBehavior
-                            };
-    });
-  },
-  insertBehaviorBefore: function (anchorBehaviorName, beforeBehavior) {
-    var self = this;
-    this._findAndManipulate(anchorBehaviorName, function (index) {
-      self.behaviors.splice(index, 0, {
-                              name: beforeBehavior.name, 
-                              behavior: beforeBehavior
-                            });
-    });
-  },
-  insertBehaviorAfter: function (anchorBehaviorName, afterBehavior) {
-    var self = this;
-    console.log(anchorBehaviorName)
-    this._findAndManipulate(anchorBehaviorName, function (index) {
-      console.log(self.behaviors)
-      console.log(index)
-      //plus one for inserting after index
-      self.behaviors.splice(index + 1, 0, {
-                              name: afterBehavior.name, 
-                              behavior: afterBehavior
-                            });
-      console.log(self.behaviors[2].behavior.toString())
-    });
-  },
-  deleteBehavior: function (name) {
-    var self = this;
-    this._findAndManipulate(name, function (index) {
-      self.behaviors.splice(index, 1);
-    });
-  },
   wrapBehavior: function (name, callback) {
     var self = this;
     this._findAndManipulate(name, function (index) {

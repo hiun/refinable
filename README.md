@@ -1,10 +1,17 @@
-# self-js
-Bringing Object-oriented Modularity to Function. JavaScript Implementation of [Self-composable Programming](https://github.com/hiun/self). 
+[![Build Status](https://travis-ci.org/hiun/self-js.svg?branch=master)](https://travis-ci.org/hiun/self-js)
+
+# Self
+Bringing Object-oriented Modularity to Function. JavaScript Implementation of [Self-composable Programming](https://arxiv.org/abs/1612.02547). 
 
 ##Self-composable Programming
 Self-composable Programming(Self) is a technique for Software Product Line Engineering to manage variability on software feature implementation. Self bring an object-oriented approach to increasing modularity by localising scattered and so tangled behavior - the ***commonalities*** to ***abstract function*** and ***variabilities*** to inherited ***specific function*** by applying refinement. Programming-level compositional approach on software modularity include metaprogramming or aspect-oriented programming works well while Self provides different advantages, Self is nothing new, does not requires special compiler or language feature but fully used the vision and idea provided since SIMULA67, which is *modeling the real world*. I am sure Object-oriented Programming is good at modeling ***things*** but not ***behaviors***, while the concept, Object-orientation could suitable for this and Self provides a practical approach to modeling of modern software behavior by bringing ***hierarchical relationship*** as you seen below in the example of a web application.
 
-![hierarchical relationship](rel.png)
+![hierarchical relationship](readme-rel.png)
+
+## Installation
+```
+npm install hiun/self
+```
 
 ## API
 | **Method Name** | **Description** |
@@ -81,8 +88,19 @@ var publicApiTraits = {
 WriteDBQuery.assign(publicApiTraits);
 ```
 
+##Internals
+
+###Architecture
+![architecture](readme-arch.png)
+`Self-js` has two major part `index.js` for provides user-visible API and `behavior-store.js` for internal operating mechanism. When `index.js` is loaded as a behavior constructor in program then user interact with standard API in prototype of `behavior instance`, the `sub1`, `sub2` in `behavior instance` does not store actual `behavior instance` but it stores only name and designated to provides an anchor for invoeke internal operating mechanism.
+
+###Operating Mechanism
+The goal of operatation in `Self-js`, as a both conceptual and implementation perspective, is fullfull variability of software feature applying easy and sophisticated refinement to element - a sub behavior in array. To do this, every `behavior instance` has its own `behavior-store instance` which stores actual behaviors array and its method to perform manipulation. As a result, the caller user program indirectly manipulates behavior.
+
 ##Todos
 - Support for asynchronous task with serial invocation of Promise
+- Same operation in single behavior how to manage?
+- Can behavior in more than 1 depth is worked normally?
 
 ##Development Status
 Status : Currently experimental and unstable.
