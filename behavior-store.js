@@ -1,10 +1,22 @@
+/*!
+ * self
+ * Copyright(c) 2017 Hiun Kim
+ * MIT Licensed
+ */
+
+/**
+ * Expose Behaviors()
+ */
+
+module.exports = Behaviors;
+
 /**
  * Constructor for new behaviorStore instance, stores behaviors array
  *
  * @public
  */
 
-var Behaviors = function () {
+function Behaviors () {
   this.behaviors = [];
 };
 
@@ -28,7 +40,7 @@ Behaviors.prototype._findAndManipulate = function (name, callback) {
  * Update specified behavior
  *
  * @param {Function|Object} New function or behavior object to update.
- * @private
+ * @public
  */
 
  Behaviors.prototype.updateBehavior = function (newBehavior) {
@@ -46,7 +58,7 @@ Behaviors.prototype._findAndManipulate = function (name, callback) {
  *
  * @param {String} name of anchor behavior.
  * @param {Object} behavior object to be inserted.
- * @private
+ * @public
  */
 
 Behaviors.prototype.insertBehaviorBefore = function (anchorBehaviorName, beforeBehavior) {
@@ -64,7 +76,7 @@ Behaviors.prototype.insertBehaviorBefore = function (anchorBehaviorName, beforeB
  *
  * @param {String} name of anchor behavior.
  * @param {Object} behavior object to be inserted.
- * @private
+ * @public
  */
 
 Behaviors.prototype.insertBehaviorAfter = function (anchorBehaviorName, afterBehavior) {
@@ -79,23 +91,28 @@ Behaviors.prototype.insertBehaviorAfter = function (anchorBehaviorName, afterBeh
 };
 
 /**
- * Insert behavior after in specified behavior
+ * Delete specified behavior
  *
- * @param {String} name of anchor behavior.
- * @param {Object} behavior object to be inserted.
- * @private
+ * @param {String} name of target behavior.
+ * @public
  */
 
-Behaviors.prototype.deleteBehavior: function (name) {
+Behaviors.prototype.deleteBehavior = function (name) {
   var self = this;
   this._findAndManipulate(name, function (index) {
     self.behaviors.splice(index, 1);
   });
 };
 
+/**
+ * Wrap a behavior
+ *
+ * @param {String} name of anchor behavior.
+ * @param {Function} a callback function for manipulaiton.
+ * @public
+ */
 
-Behaviors.prototype = {
-  wrapBehavior: function (name, callback) {
+Behaviors.prototype.wrapBehavior = function (name, callback) {
     var self = this;
     this._findAndManipulate(name, function (index) {
       var oriBehavior = self.behaviors[index];
@@ -116,51 +133,82 @@ Behaviors.prototype = {
       //console.log(self.behaviors)
 
     });
-  },
-  appendNewBehavior: function (arg) {
-    this.behaviors.push(arg);
-  },
-  getAllBehavior: function () {
-    return {
-      data: this.behaviors
-    }
-  },
-  execBehavior: function () {
+  };
 
-    var input = Array.from(arguments);
+/**
+ * Append new behavior
+ *
+ * @param {Object} new behavior object
+ * @public
+ */
 
-    this.behaviors.forEach(function (behavior) {
+Behaviors.prototype.appendNewBehavior = function (newBehaviorObj) {
+  this.behaviors.push(newBehaviorObj);
+};
 
-      //run if bebavior is not null by assign method
-      if (behavior !== null) {
-        input = behavior.behavior.apply(null, input);
-      }
+/**
+ * Get all behavior
+ *
+ * @return {Object} object
+ * @return {Object[]} object.data - Array of behavior object.
+ * @public
+ */
 
-      if (!Array.isArray(input)) {
-        input = [input];
-      }
-    });
-    
-    if (Array.isArray(input) && input.length === 1) {
-      return input[0];
-    } else {
-      return input;
-    }
-  },
-  applyTraitsToBehavior: function (traitsObject) {
-    var self = this;
-    this.behaviors.forEach(function (behavior, index) {
-      Object.keys(traitsObject).forEach(function (traits) {
-        if (behavior.name === traits) {
-          self.behaviors[index] = {
-                                    name : traitsObject[traits].name,
-                                    behavior: traitsObject[traits]
-                                  };
-        }
-      });
-    });
-    console.log(self.behavior);
+Behaviors.prototype.getAllBehavior = function () {
+  return {
+    data: this.behaviors
+  };
+};
+
+/**
+ * Execute all sub-behaviors
+ *
+ * @param {String} name of anchor behavior.
+ * @param {Function} a callback function for manipulaiton.
+ * @public
+ */
+
+Behaviors.prototype.execBehavior = function () {
+
+ var input = Array.from(arguments);
+
+ this.behaviors.forEach(function (behavior) {
+
+   //run if bebavior is not null by assign method
+   if (behavior !== null) {
+     input = behavior.behavior.apply(null, input);
+   }
+
+   if (!Array.isArray(input)) {
+     input = [input];
+   }
+ });
+ 
+  if (Array.isArray(input) && input.length === 1) {
+    return input[0];
+  } else {
+    return input;
   }
 };
 
-module.exports = Behaviors;
+/**
+ * Apply traits to behavior
+ *
+ * @param {Object} traits object.
+ * @public
+ */
+
+Behaviors.prototype.applyTraitsToBehavior = function (traitsObject) {
+  var self = this;
+  this.behaviors.forEach(function (behavior, index) {
+    Object.keys(traitsObject).forEach(function (traits) {
+      if (behavior.name === traits) {
+        self.behaviors[index] = {
+                                  name : traitsObject[traits].name,
+                                  behavior: traitsObject[traits]
+                                };
+      }
+    });
+  });
+  console.log(self.behavior);
+};

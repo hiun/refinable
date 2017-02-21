@@ -10,7 +10,7 @@ Self-composable Programming(Self) is a technique for Software Product Line Engin
 
 ## Installation
 ```
-npm install hiun/self
+npm install self
 ```
 
 ## API
