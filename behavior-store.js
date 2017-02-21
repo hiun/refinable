@@ -116,22 +116,14 @@ Behaviors.prototype.wrapBehavior = function (name, callback) {
     var self = this;
     this._findAndManipulate(name, function (index) {
       var oriBehavior = self.behaviors[index];
-      //console.log('ori--------------------')
-      //console.log(oriBehavior.behavior.toString())
       var newBehavior = callback(oriBehavior.behavior);
-      //console.log(newBehavior.toString())
+
       newBehavior.name = name;
 
       self.behaviors[index] = {
         name : name,
         behavior: newBehavior
       };
-
-      console.log(index)
-      console.log(self.behaviors[1].behavior.toString())
-      //console.log(self.behaviors[2].behavior)
-      //console.log(self.behaviors)
-
     });
   };
 
@@ -210,5 +202,4 @@ Behaviors.prototype.applyTraitsToBehavior = function (traitsObject) {
       }
     });
   });
-  console.log(self.behavior);
 };
