@@ -228,3 +228,15 @@ Behavior.prototype.assign = function (traitsObject) {
   this.behaviorStore.applyTraitsToBehavior(traitsObject);
   return this;
 };
+
+/**
+ * Define new method
+ *
+ * @param {String} method name
+ * @param {Function} method function
+ * @public
+ */
+
+Behavior.prototype.defineMethod = function (methodName, method) {
+  Behavior.prototype[methodName] = method;
+}
