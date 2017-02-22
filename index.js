@@ -238,5 +238,5 @@ Behavior.prototype.assign = function (traitsObject) {
  */
 
 Behavior.prototype.defineMethod = function (methodName, method) {
-  Behavior.prototype[methodName] = method;
-}
+  Behavior.prototype[methodName] = method.bind(this);
+};

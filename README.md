@@ -95,9 +95,11 @@ By using `defineMethod`, user can create custom refinement method by accessing b
 ```javascript
 Formula.defineMethod('deleteAddition', function () {
   var self = this;
-  this.behaviorStore.forEach(function (behacior) {
-    if (behavior.name.slice(0, 4) === 'add') {
-      this.delete.apply({name: behavior.name})
+  this.behaviorStore.behaviors.forEach(function (behavior) {
+    if (behavior.name.slice(0, 3) === 'add') {
+      self.delete.apply({name: behavior.name, behaviorStore: self.behaviorStore});
+      // or by using private API
+      //self.behaviorStore.deleteBehavior(behavior.name);
     }
   });
 });
