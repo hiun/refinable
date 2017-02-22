@@ -23,6 +23,7 @@ npm install self
 |**Behavior#Sub#delete(Function\|Bahevior)** | Delete specified behavior|
 |**Behavior#Sub#map(Function\|Bahevior)** | Manipulate specified behavior with new function or behavior that takes original behavior as an argument|
 |**Behavior#assign(Function\|Bahevior)<br>Behavior#sub#assign(Function\|Bahevior)** | Assigns traits to specific behavior with given traits object|
+|**Behavior#DefineProperty(Name, Function\|Bahevior)** | define new method for refinement|
 
 ## Examples
 
@@ -86,6 +87,20 @@ var publicApiTraits = {
 };
 
 WriteDBQuery.assign(publicApiTraits);
+```
+
+###Custom Behavior Refinement
+By using `defineMethod`, user can create custom refinement method by accessing behavior array in the function. The following example is removing sub-behavior which start with `add` by doing simple pattern matching. In the definition, usage of standard API is possible by `apply` method with custom scope.
+
+```javascript
+Formula.defineMethod('deleteAddition', function () {
+  var self = this;
+  this.behaviorStore.forEach(function (behacior) {
+    if (behavior.name.slice(0, 4) === 'add') {
+      this.delete.apply({name: behavior.name})
+    }
+  });
+});
 ```
 
 ##Internals
