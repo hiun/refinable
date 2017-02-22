@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/hiun/self-js.svg?branch=master)](https://travis-ci.org/hiun/self-js)
+[![Build Status](https://travis-ci.org/hiun/self.svg?branch=master)](https://travis-ci.org/hiun/self)
 
 # Self
 Bringing Object-oriented Modularity to Function. JavaScript Implementation of [Self-composable Programming](https://arxiv.org/abs/1612.02547). 
