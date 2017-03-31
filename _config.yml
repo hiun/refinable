@@ -1,0 +1,6 @@
+name: Self
+markdown: kramdown
+kramdown:
+  input: GFM
+highlighter: rouge
+repository: hiun/self

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ site.name }} - {{ page.path | replace:'.html','' | capitalize }}</title>
+  <link rel="stylesheet" href="/static/css/github-markdown.css">
+  <style>
+    .markdown-body {
+      box-sizing: border-box;
+      min-width: 200px;
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 45px;
+    }
+    .header-text a:link {
+        color: inherit;
+    }
+
+    .header-text a:visited {
+        color: inherit;
+    }
+
+    .header-text a:hover {
+        color: inherit;
+    }
+
+    .header-text a:active {
+        color: inherit;
+    }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">
+    {{ content }}
+    <br>
+    <hr>
+    <p>Made by <a href="https://github.com/hiun">hiun</a><span style="float: right;"><a href="https://github.com/hiun/self/tree/gh-pages/_includes/{{page.path | replace:'.html','.md'}}">Edit this page on GitHub</span></a></p>
+  </article>
+</body>
+</html>
