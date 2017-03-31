@@ -11,7 +11,7 @@ Self towards new abstraction of foundations of computer programming by enabling 
 
 ## Installing
 ```
-npm install self
+npm install hiun/self
 ```
 
 Note : Currently the library is experienmental and possibly unstable.
