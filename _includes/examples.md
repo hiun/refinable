@@ -1,6 +1,6 @@
 Below examples shows how self can be usable for building typical web application, starting from domain analysis.
 
-![hierarchical relationship](/static/img/rel.png)
+![hierarchical relationship](./static/img/rel.png)
 
 ### Behavior Construction
 ```javascript

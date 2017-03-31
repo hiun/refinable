@@ -1,5 +1,5 @@
 ### Architecture
-![architecture](/static/img/arch.png)
+![architecture](./static/img/arch.png)
 Self has two major part `index.js` for provides user-visible API and `behavior-store.js` for internal operating mechanism. When `index.js` is loaded as a behavior constructor in program then user interact with standard API in prototype of `behavior instance`, the `sub1`, `sub2` in `behavior instance` does not store actual `behavior instance` but it stores only name and designated to provides an anchor for invoeke internal operating mechanism.
 
 ### Operating Mechanism
