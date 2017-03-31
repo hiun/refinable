@@ -1,11 +1,12 @@
 {
   "name": "self-js",
   "version": "0.1.1",
-  "description": "Bringing Object-oriented Modularity to Function.",
+  "description": "Refinable Function Constructor for Better Modularity",
   "devDependencies": {
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": ""
   }
 }

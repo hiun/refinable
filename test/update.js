@@ -16,7 +16,7 @@ Formula.add(function c (n) {
 });
 
 
-var FormulaA = Formula.inherit();
+var FormulaA = Formula.new();
 
 FormulaA.c.update(function c (n) {
   return n + 10;
@@ -24,12 +24,12 @@ FormulaA.c.update(function c (n) {
 
 var assert = require('assert');
 
-describe('Behavior', function() {
-  describe('#update()', function() {
-    it('correctness : should be return 14 as a result of formula', function() {
-      Formula.exec(1, function (result) {
+describe('Behavior', function () {
+  describe('#update()', function () {
+    it('correctness : should be return 14 as a result of formula', function () {
+      return Formula.exec(1).then(function (result) {
         assert.equal(14, result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });

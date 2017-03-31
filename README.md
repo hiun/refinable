@@ -1,123 +1,45 @@
 [![Build Status](https://travis-ci.org/hiun/self.svg?branch=master)](https://travis-ci.org/hiun/self)
 
-# Self
-Bringing Object-oriented Modularity to Function. JavaScript Implementation of [Self-composable Programming](https://arxiv.org/abs/1612.02547). 
+Self towards new abstraction of foundations of computer programming by enabling construction of refinable function. Self introduces,
 
-##Self-composable Programming
-Self-composable Programming(Self) is a technique for Software Product Line Engineering to manage variability on software feature implementation. Self bring an object-oriented approach to increasing modularity by localising scattered and so tangled behavior - the ***commonalities*** to ***abstract function*** and ***variabilities*** to inherited ***specific function*** by applying refinement. Programming-level compositional approach on software modularity include metaprogramming or aspect-oriented programming works well while Self provides different advantages, Self is nothing new, does not requires special compiler or language feature but fully used the vision and idea provided since SIMULA67, which is *modeling the real world*. I am sure Object-oriented Programming is good at modeling ***things*** but not ***behaviors***, while the concept, Object-orientation could suitable for this and Self provides a practical approach to modeling of modern software behavior by bringing ***hierarchical relationship*** as you seen below in the example of a web application.
+* &#128221;&nbsp;&nbsp;**Function as an Object** Self adds flexibility of OOP to function including inheritance and traits
 
-![hierarchical relationship](readme-rel.png)
+* &#128230;&nbsp;&nbsp;**Abstract Function** Self provides an refianble high-level function that gradually localise concerns
 
-## Installation
+* &#9989;&nbsp;&nbsp;**Safe, Manageable Metaprogramming** all manipulation of function occurs in the realm of self
+
+* &#9889;&nbsp;&nbsp;**Natively Supported** no special tooling, transpilers or language extension required
+
+
+## Installing
 ```
 npm install self
 ```
 
-## API
-| **Method Name** | **Description** |
-| ------------- |:-------------:|
-|**Bahevior#add(Function\|Bahevior)** | Append given function or behavior into high-level behacior|
-|**Behavior#Sub#before(Function\|Bahevior)** | Insert given function or behavior before specified behavior|
-|**Behavior#Sub#after(Function\|Bahevior)** | Insert given function or behavior after specified behavior|
-|**Behavior#Sub#update(Function\|Bahevior)** | Update specified behavior into given function or behavior|
-|**Behavior#Sub#delete(Function\|Bahevior)** | Delete specified behavior|
-|**Behavior#Sub#map(Function\|Bahevior)** | Manipulate specified behavior with new function or behavior that takes original behavior as an argument|
-|**Behavior#assign(Function\|Bahevior)<br>Behavior#sub#assign(Function\|Bahevior)** | Assigns traits to specific behavior with given traits object|
-|**Behavior#DefineProperty(Name, Function\|Bahevior)** | define new method for refinement|
+Note : Currently the library is experienmental and possibly unstable.
 
-## Examples
+Prerequisite : [Node.js](http://nodejs.org) 7.6 or higher (OR 6.5 or higher with `--harmony` flag for `async await`)
 
-###Behavior Construction
-```javascript
+## Simplist Example
+
+### API Server
+
+```js
 var Behavior = require('self');
+var DBQuery = new Behavior.add(inputScaffolding).add(authCheck);
+var ReadDBQuery = DBQuery.new().add(cacheCheck);
+var WriteDBQuery = DBQuery.new().add(writeBackCheck);
 
-var DBQuery = new Behavior();
+var LoadArticle = ReadDBQuery.new().add(loadQuery);
+var CreateArticle = WriteDBQuery.new().add(creationQuery);
 
-DBQuery.add(auth);
-DBQuery.add(validate);
-DBQuery.add(monit);
+LoadArticle.exec(input).then(resp200).catch(resp500);
+
+//using traits
+var publicApiTraits = {authCheck: null};
+var publicLoadArticle = LoadArticle.new().assign(publicApiTraits);
 ```
 
-###Bahevior Inheritance
-```javascript
-/* Operation-specific Processing */
-var ReadDBQuery = new DBQuery();
-var WriteDBQuery = new DBQuery();
+Self aspire motivation of [Aspect-oriented Programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming), a managed metaprogramming for seperation of concerns. Self advances use of [function advising](https://en.wikipedia.org/wiki/Advice_(programming)) by bringing object-oriented refinement, such as method, inheritance or traits.
 
-/* Object-specific Processing */
-var ReadPost = new ReadDBQuery();
-var WritePosts = new WriteDBQuery();
-
-/* Feature-specific Processing */
-var ReadPostsRecents = new ReadPosts();
-var ReadPostsPopular = new ReadPosts();
-var CreatePost = new WritePost();
-var UpdatePost = new WritePost();
-```
-
-
-###Explicit Behavior Refinement
-```javascript
-var WriteDBQuery = new DBQuery();
-
-WriteDBQuery.add(writeBack);
-WriteDBQuery.monitoring.update(cacheMonit);
-WriteDBQuery.validate.before(beforeValidate);
-WriteDBQuery.validate.after(afterValidate);
-WriteDBQuery.validate.map(() => {
-    return (validate) => {
-      validateWrapper(validate);
-}
-});
-WriteDBQuery.beforeValidate.delete();
-
-var CreatePost = new WriteDBQuery();
-
-CreatePost.add(createUserSQLExec);
-CreatePost.auth.update(2factorAuth);
-```
-
-
-###Implicit Behavior Refinement
-Traits is object-independent, set of composable behavior. By `assign` method, behavior could refiend in high-level and implicit manner. 
-
-```javascript
-var publicApiTraits = {
-    auth: null
-};
-
-WriteDBQuery.assign(publicApiTraits);
-```
-
-###Custom Behavior Refinement
-By using `defineMethod`, user can create custom refinement method by accessing behavior array in the function. The following example is removing sub-behavior which start with `add` by doing simple pattern matching. In the definition, usage of standard API is possible by `apply` method with custom scope.
-
-```javascript
-Formula.defineMethod('deleteAddition', function () {
-  var self = this;
-  this.behaviorStore.behaviors.forEach(function (behavior) {
-    if (behavior.name.slice(0, 3) === 'add') {
-      self.delete.apply({name: behavior.name, behaviorStore: self.behaviorStore});
-      // or by using private API
-      //self.behaviorStore.deleteBehavior(behavior.name);
-    }
-  });
-});
-```
-
-##Internals
-
-###Architecture
-![architecture](readme-arch.png)
-`Self-js` has two major part `index.js` for provides user-visible API and `behavior-store.js` for internal operating mechanism. When `index.js` is loaded as a behavior constructor in program then user interact with standard API in prototype of `behavior instance`, the `sub1`, `sub2` in `behavior instance` does not store actual `behavior instance` but it stores only name and designated to provides an anchor for invoeke internal operating mechanism.
-
-###Operating Mechanism
-The goal of operatation in `Self-js`, as a both conceptual and implementation perspective, is fullfull variability of software feature applying easy and sophisticated refinement to element - a sub behavior in array. To do this, every `behavior instance` has its own `behavior-store instance` which stores actual behaviors array and its method to perform manipulation. As a result, the caller user program indirectly manipulates behavior.
-
-##Todos
-- Support for asynchronous task with serial invocation of Promise
-- Same operation in single behavior how to manage?
-- Can behavior in more than 1 depth is worked normally?
-
-##Development Status
-Status : Currently experimental and unstable.
+The possible applications of Self can be applied to software that has **frequently using largely variable features** also known as software product lines. Prospective candidates including api servers, robotics and inteligent system.

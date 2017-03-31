@@ -21,12 +21,12 @@ Formula.b.map(function (proc) {
 
 var assert = require('assert');
 
-describe('Behavior', function() {
-  describe('#map()', function() {
+describe('Behavior', function () {
+  describe('#map()', function () {
     it('correctness : should be return 301 as a result of formula', function () {
-      Formula.exec(0, function (result) {
+      return Formula.exec(0).then(function (result) {
         assert.equal(301, result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });

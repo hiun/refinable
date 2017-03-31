@@ -1,14 +1,14 @@
 var Behavior = require('..');
+var assert = require('assert');
 
 var Formula = new Behavior();
 
 Formula.defineMethod('deleteAddition', function () {
-  var self = this;
-  this.behaviorStore.behaviors.forEach(function (behavior) {
+  this.behaviorStore.behaviors.forEach((behavior) => {
     if (behavior.name.slice(0, 3) === 'add') {
-      self.delete.apply({name: behavior.name, behaviorStore: self.behaviorStore});
+      this.delete.apply({name: behavior.name, behaviorStore: this.behaviorStore});
       // or by using private API
-      //self.behaviorStore.deleteBehavior(behavior.name);
+      //this.behaviorStore.deleteBehavior(behavior.name);
     }
   });
 });
@@ -27,14 +27,12 @@ Formula.add(function add200 (n) {
 
 Formula.deleteAddition();
 
-var assert = require('assert');
-
 describe('Behavior', function() {
   describe('#defineMethod()', function() {
-    it('correctness : should be return -1000 as a result of formula', function() {
-      Formula.exec(0, function (result) {
+    it('correctness : should be return -1000 as a result of formula', function () {
+      return Formula.exec(0).then((result) => {
         assert.equal(-1000, result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });

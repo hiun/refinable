@@ -1,4 +1,5 @@
 var Behavior = require('..');
+var assert = require('assert');
 
 var Formula = new Behavior();
 
@@ -18,12 +19,12 @@ Formula.c.delete();
 
 var assert = require('assert');
 
-describe('Behavior', function() {
-  describe('#delete()', function() {
-    it('correctness : should be return 6 as a result of formula', function() {
-      Formula.exec(1, function (result) {
+describe('Behavior', function () {
+  describe('#delete()', function () {
+    it('correctness : should be return 6 as a result of formula', function () {
+      return Formula.exec(1).then(function (result) {
         assert.equal(4, result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });

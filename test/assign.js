@@ -32,9 +32,9 @@ var assert = require('assert');
 describe('Behavior', function() {
   describe('#assign()', function() {
     it('correctness : should be return \'aZcZ\' as a result of formula', function () {
-      Formula.exec('', function (result) {
+      return Formula.exec('').then(function (result) {
         assert.equal('aZcZ', result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });

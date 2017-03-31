@@ -18,10 +18,10 @@ var assert = require('assert');
 
 describe('Behavior', function() {
   describe('#before()', function() {
-    it('correctness : should be return 2 as a result of before injection of formula', function() {
-      Formula.exec(1, function (result) {
+    it('correctness : should be return 2 as a result of before injection of formula', function () {
+      return Formula.exec(1).then(function (result) {
         assert.equal(2, result);
-      });
+      }).catch(assert.ifError);
     });
   });
 });
