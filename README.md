@@ -17,7 +17,7 @@ See [Self website](https://hiun.org/self/) for further documentation and instruc
 ## Installing
 
 ```
-npm install self
+npm install hiun/self
 ```
 
 Note : Currently the library is experienmental and possibly unstable.
