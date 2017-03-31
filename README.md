@@ -12,8 +12,10 @@ Self towards new abstraction of foundations of computer programming by enabling 
 
 * &#9889;&nbsp;&nbsp;**Natively Supported** no special tooling, transpilers or language extension required
 
+See [Self website](https://hiun.org/self/) for further documentation and instruction. See [API references](https://hiun.org/self/api) here.
 
 ## Installing
+
 ```
 npm install self
 ```
