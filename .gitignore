@@ -1,3 +1,4 @@
 drafts/
 node_modules/
 test2/
+*.log
