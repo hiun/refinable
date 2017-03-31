@@ -50,7 +50,7 @@ WriteDBQuery.beforeValidate.delete();
 var CreatePost = new WriteDBQuery();
 
 CreatePost.add(createUserSQLExec);
-CreatePost.auth.update(2factorAuth);
+CreatePost.auth.update(twoFactorAuth);
 ```
 
 
