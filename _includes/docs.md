@@ -1,6 +1,6 @@
 ## Getting Started
 
-Lets Self-composable data checker, a tyoe of procedure that widely used in applications and library. Lets construct checker for phone number and name, instead of directly checking specific constrains, Self gradually checking general concern to specific concern to dealing with further variability.
+Lets make Self-composable data checker, a type of procedure that widely used in applications and library. Lets construct checker for phone number and name, instead of directly checking specific constrains, Self gradually checking general concern to specific concern to dealing with further variability.
 
 First of all, create data empty checker.
 
