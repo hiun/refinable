@@ -9,11 +9,11 @@
 * &#9889;&nbsp;&nbsp;**Natively Supported for Web** You can design and implement many modularity techniques without limits runtime environment or depends on special tooling and compilers. Perfect for Web and IoT development or constrained sensors devices.
 
 ## Links
-* [Getting Started Examples](/examples)
-* [API Documentation](/api)
-* [Example Documentation](/docs)
-* [Refinable Functions Theory](/theory)
-* [Architectural Structure](/architecture)
+* [Getting Started Examples](./examples)
+* [API Documentation](./api)
+* [Example Documentation](./docs)
+* [Refinable Functions Theory](./theory)
+* [Architectural Structure](./architecture)
 * [Code Repository](https://github.com/hiun/self)
 
 ## Installing
