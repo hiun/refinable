@@ -1,28 +1,33 @@
-# Self
+# refinable.js
 
-[![Build Status](https://travis-ci.org/hiun/self.svg?branch=master)](https://travis-ci.org/hiun/self)
+[![Build Status](https://travis-ci.org/hiun/self.svg?branch=master)](https://travis-ci.org/hiun/refinable)
 
-Self towards new abstraction of foundations of computer programming by enabling construction of refinable function. Self introduces,
+**refinable.js** is JavaScript library for **object-oriented function refinement** to implement **cross-cutting and feature modularity by extension, mutation, and inheritance of function**.
 
-* &#128221;&nbsp;&nbsp;**Function as an Object** Self adds flexibility of OOP to function including inheritance and traits
+* &#128221;&nbsp;&nbsp;**Function as Classes** refinable.js frammes function as class to enable flexible refinement of functions and method just like how we refine classes and objects
 
-* &#128230;&nbsp;&nbsp;**Abstract Function** Self provides an refianble high-level function that gradually localise concerns
+* &#128230;&nbsp;&nbsp;**Refinable Functions** refinable functions allows to implement cross-cutting and feature modularity using extension, mutation, and inheritance of function
 
-* &#9989;&nbsp;&nbsp;**Safe, Manageable Metaprogramming** all manipulation of function occurs in the realm of self
+* &#9989;&nbsp;&nbsp;**Safe, Manageable Refinements** Typed refinable functions uses type systems for detect potential composition error everytime when refinemenent modification occured.
 
-* &#9889;&nbsp;&nbsp;**Natively Supported** no special tooling, transpilers or language extension required
+* &#9889;&nbsp;&nbsp;**Natively Supported for Web** You can design and implement many modularity techniques without limits runtime environment or depends on special tooling and compilers. Perfect for Web and IoT development or constrained sensors devices.
 
-See [Self website](https://hiun.org/self/) for further documentation and instruction. See [API references](https://hiun.org/self/api) here.
+## Links
+* [Getting Started Examples](https://hiun.org/refinable/examples)
+* [API Documentation](https://hiun.org/refinable/api)
+* [Example Documentation](https://hiun.org/refinable/docs)
+* [Refinable Functions Theory](https://hiun.org/refinable/theory)
+* [Architectural Structure](https://hiun.org/refinable/architecture)
 
 ## Installing
-
 ```
-npm install hiun/self
+npm install hiun/refinable
 ```
 
 Note : Currently the library is experienmental and possibly unstable.
 
 Prerequisite : [Node.js](http://nodejs.org) 7.6 or higher (OR 6.5 or higher with `--harmony` flag for `async await`)
+
 
 ## Simplist Example
 
@@ -44,6 +49,4 @@ var publicApiTraits = {authCheck: null};
 var publicLoadArticle = LoadArticle.new().assign(publicApiTraits);
 ```
 
-Self aspire motivation of [Aspect-oriented Programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming), a managed metaprogramming for seperation of concerns. Self advances use of [function advising](https://en.wikipedia.org/wiki/Advice_(programming)) by bringing object-oriented refinement, such as method, inheritance or traits.
-
-The possible applications of Self can be applied to software that has **frequently using largely variable features** also known as software product lines. Prospective candidates including api servers, robotics and inteligent system.
+Refinable functions aspire motivation of many lasting modularity research like aspect-oriented programming and feature-oriented programming by attempting research’s theoretical benefits into pragmatic practices of rising script languages like JavaScript with dependency free implementation mechanism.
