@@ -1,6 +1,6 @@
 # refinable.js
 
-[![Build Status](https://travis-ci.org/hiun/self.svg?branch=master)](https://travis-ci.org/hiun/refinable)
+[![Build Status](https://travis-ci.org/hiun/refinable.svg?branch=master)](https://travis-ci.org/hiun/refinable)
 
 **refinable.js** is JavaScript library for **object-oriented function refinement** to implement **cross-cutting and feature modularity by extension, mutation, and inheritance of function**.
 
