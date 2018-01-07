@@ -1,6 +1,6 @@
-name: Self
+name: refinable.js
 markdown: kramdown
 kramdown:
   input: GFM
 highlighter: rouge
-repository: hiun/self
+repository: hiun/refinable

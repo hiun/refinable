@@ -1,82 +1,72 @@
-Below examples shows how self can be usable for building typical web application, starting from domain analysis.
+## Getting Started
 
-![hierarchical relationship](./static/img/rel.png)
+Let's make refinable data checker, a type of procedure that widely used in applications and library. Let's construct checker for phone number and name, instead of directly checking specific constrains, `refinable.js` gradually checking general concern to specific concern to dealing with further variability.
 
-### Behavior Construction
-```javascript
-var Behavior = require('self');
+First of all, create data empty checker.
 
-var DBQuery = new Behavior();
+```js
+var Refinable = require('refinable');
+var assert = require('assert')
 
-DBQuery.add(auth);
-DBQuery.add(validate);
-DBQuery.add(monit);
+var Checker = new Refinable().add((data) => {
+    assert.ok(data, 'data emptied!')
+}, 'emptyChecker');
 ```
 
-### Bahevior Inheritance
-```javascript
-/* Operation-specific Processing */
-var ReadDBQuery = DBQuery.new();
-var WriteDBQuery = DBQuery.new();
+Then, inherit `Checker` to implements `NumberChecker` and `StringChecker`.
 
-/* Object-specific Processing */
-var ReadPosts = ReadDBQuery.new();
-var WritePost = WriteDBQuery.new();
-
-/* Feature-specific Processing */
-var ReadPostsRecents = ReadPosts.new();
-var ReadPostsPopular = ReadPosts.new();
-var CreatePost = WritePost.new();
-var UpdatePost = WritePost.new();
-```
-
-
-### Explicit Behavior Refinement
-```javascript
-var WriteDBQuery = DBQuery.new();
-
-WriteDBQuery.add(writeBack);
-WriteDBQuery.monitoring.update(cacheMonit);
-WriteDBQuery.validate.before(beforeValidate);
-WriteDBQuery.validate.after(afterValidate);
-WriteDBQuery.validate.map(() => {
-  return (validate) => {
-    validateWrapper(validate);
-  }
-});
-
-WriteDBQuery.beforeValidate.delete();
-
-var CreatePost = new WriteDBQuery();
-
-CreatePost.add(createUserSQLExec);
-CreatePost.auth.update(twoFactorAuth);
-```
-
-
-### Implicit Behavior Refinement
-Traits is object-independent, set of composable behavior. By `assign` method, behavior could refiend in high-level and implicit manner. 
-
-```javascript
-var publicApiTraits = {
-    auth: null
-};
-
-WriteDBQuery.assign(publicApiTraits);
-```
-
-### Custom Behavior Refinement
-By using `defineMethod`, user can create custom refinement method by accessing behavior array in the function. The following example is removing sub-behavior which start with `add` by doing simple pattern matching. In the definition, usage of standard API is possible by `apply` method with custom scope.
-
-```javascript
-Formula.defineMethod('deleteAddition', function () {
-  var self = this;
-  this.behaviorStore.behaviors.forEach(function (behavior) {
-    if (behavior.name.slice(0, 3) === 'add') {
-      self.delete.apply({name: behavior.name, behaviorStore: self.behaviorStore});
-      // or by using private API
-      //self.behaviorStore.deleteBehavior(behavior.name);
+```js
+var NumberChecker = Checker.new().add((data) => {
+    if (typeof data !== 'number') {
+        throw new TypeError('data shoud be number!')
     }
-  });
+}, 'numberChecker');
+
+var StringChecker = Checker.new().add((data) => {
+    if (typeof data !== 'string') {
+        throw new TypeError('data shoud be string!')
+    }
+}, 'stringChecker');
+```
+
+Finally implements phone number and name checker
+```js
+var PhoneNumberChecker = NumberChecker.new().add((data) => {
+    if (PHONE_NUMBER_MAX_DIGIT > data.length) {
+        return true;
+    } else {
+        throw new RangeError('length of phone number exceeds!')
+    }
+}, 'phoneNumberChecker');
+
+var NameChecker = StringChecker.new().add((data) => {
+    if (NAME_MAX_DIGIT > data.length) {
+        return true;
+    } else {
+        throw new RangeError('length of name exceeds!')
+    }
+}, 'nameChecker');
+
+//creditCardCheck
+//addressCheck
+```
+
+But, what if the input data requires formatting? Such as removing dashes? Instead of implementing directly to `nameChecker` or `stringChecker`, let's create formatter that helps to scaffold input data.
+
+```js
+var numberSplitter = Checker.new().add((data) => {
+    return { data: data.split('-') }
+}, 'numberSplitter');
+
+var PhoneNumberChecker2 = PhoneNumberChecker.new().numberChecker.map((data) => {
+    var arr = data.split('-').map(parseInt);
+    arr.forEach((value) => {
+        return (oriNumberChecker) => {
+            if (!oriNumberChecker(value)) {
+                throw new TypeError('invalid phone number');
+            }
+        }
+    });
+    return arr.join();
 });
 ```
