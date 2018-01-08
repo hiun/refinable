@@ -4,13 +4,13 @@
 
 **refinable.js** is JavaScript library for **object-oriented function refinement** to implement **cross-cutting and feature modularity by extension, mutation, and inheritance of function**.
 
-* &#128221;&nbsp;&nbsp;**Function as Classes** refinable.js frammes function as class to enable flexible refinement of functions and method just like how we refine classes and objects
+* &#128221;&nbsp;&nbsp;**Function as Classes** refinable.js frammes function as class to enable flexible modification of functions and method just like how we refine classes and objects
 
 * &#128230;&nbsp;&nbsp;**Refinable Functions** refinable functions allows to implement cross-cutting and feature modularity using extension, mutation, and inheritance of function
 
-* &#9989;&nbsp;&nbsp;**Safe, Manageable Refinements** Typed refinable functions uses type systems for detect potential composition error everytime when refinemenent modification occured.
+* &#9989;&nbsp;&nbsp;**Safe, Manageable Refinements** Typed refinable functions uses type systems for detect potential composition error everytime when changes are occured.
 
-* &#9889;&nbsp;&nbsp;**Natively Supported for Web** You can design and implement many modularity techniques without limits runtime environment or depends on special tooling and compilers. Perfect for Web and IoT development or constrained sensors devices.
+* &#9889;&nbsp;&nbsp;**Natively Supported for Web** You can design and implement many modularity techniques without limits runtime environment or depends on special tooling and compilers. Perfect for developing web and constrained sensors devices.
 
 ## Links
 * [Getting Started Examples](https://hiun.org/refinable/examples)
